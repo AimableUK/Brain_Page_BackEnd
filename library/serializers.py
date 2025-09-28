@@ -8,18 +8,18 @@ class BookSerializer(serializers.ModelSerializer):
         fields = "__all__"
         
         
-class StudentSerializer(serializers.ModelField):
+class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = "__all__"
         
-class UserSerializer(serializers.ModelField):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
     
     
-class BorrowingSerializer(serializers.ModelField):
+class BorrowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrowing
         fields = "__all__"

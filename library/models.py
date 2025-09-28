@@ -11,7 +11,6 @@ class Book(models.Model):
     description      = models.TextField()
     total_copies     = models.IntegerField()
     available_copies = models.IntegerField()
-    status           = models.BooleanField(default=True)
     created_at       = models.DateTimeField(auto_now_add=True)
     updated_at       = models.DateTimeField(auto_now=True)
     

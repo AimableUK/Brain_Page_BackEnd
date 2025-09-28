@@ -2,7 +2,11 @@ from django.shortcuts import render
 from rest_framework import generics
 from .serializers import BookSerializer, StudentSerializer, UserSerializer, BorrowingSerializer
 from .models import Book, Student, User, Borrowing
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.utils import timezone
+from rest_framework.permissions import AllowAny
 
 # ---- Books ---- #
 class Books(generics.ListCreateAPIView):
@@ -47,3 +51,18 @@ class BorrowingDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Borrowing.objects.all()
     lookup_field = 'pk'
     
+class ReturnBook(generics.UpdateAPIView):
+    queryset = Borrowing.objects.all()
+    serializer_class = BorrowingSerializer
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer):
+        borrowing = self.get_object()
+        if borrowing.status == "returned":
+            raise serializers.ValidationError("Book already returned")
+        borrowing.status = "returned"
+        borrowing.return_date = timezone.now()
+        borrowing.book.available_copies += 1
+        borrowing.book.save()
+        borrowing.save()
+        
