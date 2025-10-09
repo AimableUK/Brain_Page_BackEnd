@@ -3,6 +3,9 @@ venv/
 # ignore vendor static files
 src/staticfiles/vendors/
 
+# google client secret
+*.json
+
 # ignore local static file root
 # or local cdn
 local-cdn/
