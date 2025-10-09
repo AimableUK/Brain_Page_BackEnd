@@ -5,8 +5,7 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
-    path('brain-page-admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls')),
     path('accounts/', include('allauth.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
