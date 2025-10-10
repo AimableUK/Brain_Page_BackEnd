@@ -17,3 +17,13 @@ class Book(models.Model):
         return f'{self.title} by {self.author}'
 
 
+class Member(models.Model):
+    full_name  = models.CharField(max_length=255)
+    email      = models.EmailField(blank=True, null=True, unique=True)
+    phone      = models.CharField(max_length=15, blank=True, null=True, unique=True)
+    address    = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f'{self.full_name} - Phone: {self.phone}'

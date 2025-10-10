@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Book
+from .models import Book, Member
 from datetime import date
 
 class BookSerializer(serializers.ModelSerializer):
@@ -18,3 +18,9 @@ class BookSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Published date cannot be in the future")
         return value
     
+    
+class MemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        fields = "__all__"
+        
