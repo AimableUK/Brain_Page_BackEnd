@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Book(models.Model):
     title            = models.CharField(max_length=225)
@@ -26,4 +27,22 @@ class Member(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f'{self.full_name} - Phone: {self.phone}'
+        return f'{self.full_name}'
+    
+
+class Lend(models.Model):
+    book        = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book')
+    member      = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='member')
+    status      = models.BooleanField(default=False)
+    return_date = models.DateField()
+    lent_date   = models.DateTimeField(auto_now_add=True)
+    returned_at = models.DateTimeField(null=True, blank=True)
+    
+    
+    def __str__(self):
+        return f'{self.book.title} lent to {self.member.full_name}'
+    
+    @property
+    def is_overdue(self):
+        return date.today() > self.return_date and not self.status
+    

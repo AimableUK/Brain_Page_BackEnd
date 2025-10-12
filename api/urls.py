@@ -8,7 +8,10 @@ from library.views import (
     Books, 
     BookDetails, 
     Members, 
-    MemberDetails
+    MemberDetails,
+    Lends,
+    LendDetails,
+    ReturnBook
 )
 
 urlpatterns = [
@@ -28,8 +31,8 @@ urlpatterns = [
     path('members/', Members.as_view(), name="member-list" ),
     path('members/<int:pk>/', MemberDetails.as_view(), name="member-details" ),
 
-    # Borrowing
-    # path('borrow/', Borrowings.as_view(), name="borrow-list-create"),
-    # path('borrow/<uuid:pk>/', BorrowingDetails.as_view(), name="borrow-detail"),
-    # path('borrow/<uuid:pk>/return/', ReturnBook.as_view(), name="return-book"),
+    # lending
+    path('lends/', Lends.as_view(), name="lends-list-create"),
+    path('lends/<int:pk>/', LendDetails.as_view(), name="lend-details"),
+    path('return/<int:pk>/', ReturnBook.as_view(), name="return-book"),
 ]
