@@ -8,7 +8,7 @@ from library.views import (
 )
 from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-
+from accounts.views import ProtectedView
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
@@ -26,6 +26,9 @@ urlpatterns = [
     # dj-rest-auth
     path('auth/', include('dj_rest_auth.urls')),
     path('auth/registration/', include('dj_rest_auth.registration.urls')),
+    
+    # protected
+    path('protected-view/', ProtectedView.as_view()),
 
     # Books
     path('books/', Books.as_view(), name="book-list"),
