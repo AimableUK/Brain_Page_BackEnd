@@ -41,17 +41,8 @@ class MyAccountManager(BaseUserManager):
     
 
 class Account(AbstractBaseUser):
-    
-    class RoleChoices(models.TextChoices):
-        MEMBER = "member", "Member"
-        LIBRARIAN = "librarian", "Librarian"
-        
-    first_name    = models.CharField(max_length=50)
-    last_name     = models.CharField(max_length=50)
     username      = models.CharField(max_length=50, unique=True)
     email         = models.EmailField(max_length=100, unique=True)
-    phone_number  = models.CharField(max_length=15)
-    role          = models.CharField(max_length=50, default=RoleChoices.MEMBER, choices=RoleChoices.choices)
     
     # required
     date_joined   = models.DateTimeField(auto_now_add=True)
@@ -62,12 +53,9 @@ class Account(AbstractBaseUser):
     is_superadmin = models.BooleanField(default=False)
     
     USERNAME_FIELD  = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'email', 'role']
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'email', 'phone_number']
     
     objects = MyAccountManager()
-    
-    def full_name(self):
-        return f'{self.first_name} {self.last_name}'
     
     def __str__(self):
         return self.email
@@ -78,14 +66,17 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, add_label):
         return True
 
+
 class UserProfile(models.Model):
-    member = models.OneToOneField(Account, on_delete=models.CASCADE)
-    address = models.CharField(blank=True, max_length=100)
-    profile_picture = models.ImageField(blank=True, upload_to='userprofile')
-    
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    profile_picture = models.ImageField(upload_to='userprofile', blank=True)
+
     def __str__(self):
-        return self.member.first_name
-    
-    
+        return f'{self.first_name} {self.last_name}'
+
     
     

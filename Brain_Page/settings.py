@@ -53,7 +53,7 @@ DEBUG = config("DJANGO_DEBUG", cast=bool)
 BASE_URL = config("BASE_URL", default=None)
 
 ALLOWED_HOSTS = [
-    "localhost:3000" # https://saas.prod.railway.app
+    "localhost:3000"
 ]
 if DEBUG:
     ALLOWED_HOSTS += [
@@ -92,16 +92,33 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 REST_USE_JWT = True
 LOGIN_REDIRECT_URL = "/"
+# Redirects after email verification
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'http://localhost:3000/confirm-email'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://localhost:3000/dashboard/overview'
+ACCOUNT_ADAPTER = "accounts.adapter.CustomAccountAdapter"
+FRONTEND_URL = "http://localhost:3000"
+
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[BRAIN PAGE] "
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_SIGNUP_FIELDS = ['full_name*','phone*','email*', 'address*', 'password1*']
-ACCOUNT_ADAPTER = 'accounts.adapter.MyAccountAdapter'
-
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_SIGNUP_FIELDS = [
+#     'first_name*',
+#     'last_name*',
+#     'username*',
+#     'phone*',
+#     'email*',
+#     'password1*',
+#     'password2*',
+# ]
 
 CONN_MAX_AGE = config("CONN_MAX_AGE", cast=int, default=30)
 DATABASE_URL = config("DATABASE_URL", default=None)
@@ -176,7 +193,9 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 
 
 
@@ -260,4 +279,8 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=20),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
