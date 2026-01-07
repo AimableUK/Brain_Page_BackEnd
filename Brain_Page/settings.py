@@ -48,9 +48,8 @@ ALLOWED_HOSTS = config(
     default=["localhost", "127.0.0.1"],
 )
 
-
-# CSRF_TRUSTED_ORIGINS = ['https://']
-
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [config('TRUSTED_ORIGINS')]
 
 # Application definition
 
