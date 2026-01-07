@@ -3,9 +3,10 @@ from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from allauth.account.views import confirm_email as allauth_confirm_email
-
+from django.http import JsonResponse
 
 urlpatterns = [
+    path("", lambda request: JsonResponse({"status": "Brain Page API running"})),
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls')),
     path('accounts/', include('allauth.urls')),

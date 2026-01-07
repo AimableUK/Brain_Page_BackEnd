@@ -13,7 +13,6 @@ from accounts.views import ProtectedView
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
 
-
 urlpatterns = [
     # Google auth
     path('google/', GoogleLogin.as_view(), name='google_login'),
