@@ -23,4 +23,7 @@ USER appuser
 
 EXPOSE 8000
 
-CMD ["gunicorn", "Brain_Page.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+# Run migrations, then start gunicorn
+CMD python manage.py migrate --noinput && \
+    python manage.py collectstatic --noinput && \
+    gunicorn Brain_Page.wsgi:application --bind 0.0.0.0:8000 --workers 3
