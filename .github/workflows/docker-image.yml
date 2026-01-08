@@ -26,5 +26,5 @@ jobs:
 
       - name: Build and push
         run: |
-          docker build -t ghcr.io/aimableuk/app-image:latest .
-          docker push ghcr.io/aimableuk/app-image:latest
+          docker build -t ghcr.io/${{ github.actor }}/app-image:latest .
+          docker push ghcr.io/${{ github.actor }}/app-image:latest
