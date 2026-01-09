@@ -18,12 +18,19 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY . .
 
+# Create user first
 RUN adduser --disabled-password appuser
+
+# Create directories and set proper permissions BEFORE switching to appuser
+RUN mkdir -p /app/staticfiles /app/media && \
+    chown -R appuser:appuser /app
+
+# Now switch to non-root user
 USER appuser
 
 EXPOSE 8000
 
-# Run migrations, then start gunicorn
+# Run migrations, collect static files, then start gunicorn
 CMD python manage.py migrate --noinput && \
     python manage.py collectstatic --noinput && \
     gunicorn Brain_Page.wsgi:application --bind 0.0.0.0:8000 --workers 3
